@@ -1,4 +1,4 @@
-var height = '40px';
+var height = '100px';
 var iframe = document.createElement('iframe');
 iframe.src = chrome.extension.getURL('toolbar.html');
 iframe.style.height = height;
