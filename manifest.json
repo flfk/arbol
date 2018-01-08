@@ -1,0 +1,26 @@
+{
+	"manifest_version": 2,
+
+	"name": "Blank Tool Bar",
+	"description": "Blank Tool Bar Description",
+	"version": "1.0",
+
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
+
+	"content_scripts": [
+		{
+		//use matches call a match for any web page that that matches these formats (note * is wildcard for 0 or more characters)
+		"matches": ["http://*/", "https://*/*"],
+		"css": ["style.css"],
+		"js": ["myScript2.js"]
+		}
+	],
+
+	//declare what we want to use in content scripts and avialable for user to see
+	"web_accessible_resources": [
+		"toolbar.html",
+		"style.css"
+	]
+}
