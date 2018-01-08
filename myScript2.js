@@ -10,4 +10,4 @@ iframe.style.zIndex = '938089';
 iframe.style.backgroundColor = "grey";
 document.documentElement.appendChild(iframe);﻿
 
-document.body.style.margin = '0px 0px '+height;
+document.body.style.margin = '0px 0px '+height; //set margin height
