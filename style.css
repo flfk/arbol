@@ -1,10 +1,25 @@
 /* style file will style the iframe created in myScript.js */
 
-#myOwnCustomFirstToolbar1234 {
+/* #myOwnCustomFirstToolbar1234 {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
   background: black;
   color: white;
+} */
+
+/* note, scaled down banner to fit into 70px bar */
+.banner_728x90 {
+  height: 60px;
+  width: 468px;
+  position: relative;
+  /* display: inline-block; */
+}
+
+.bottomBar {
+  font-size: 18px;
+  font-weight: bold;
+  vertical-align: top;
+  overflow: auto;
 }
