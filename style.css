@@ -1,13 +1,39 @@
 /* style file will style the iframe created in myScript.js */
 
-/* #myOwnCustomFirstToolbar1234 {
-  position: absolute;
+body {
+  /*overflow: hidden;*/
+}
+
+#myOwnCustomFirstToolbar1234 {
+  position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: black;
-  color: white;
-} */
+  z-index: 938089;
+  background-color: #F4F4F4;
+  border: thin solid #CCC;
+}
+
+.bottomBar {
+  vertical-align: top;
+  padding: 0px 40px;
+}
+
+.cross {
+  height: 20px;
+  height: 20px;
+  vertical-align: top;
+  float: right;
+}
+
+#treeCount, #pagesLeft {
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+  width: 100px;
+  vertical-align: top;
+  padding-top: 10px;
+}
 
 /* note, scaled down banner to fit into 70px bar */
 .banner_728x90 {
@@ -15,11 +41,4 @@
   width: 468px;
   position: relative;
   /* display: inline-block; */
-}
-
-.bottomBar {
-  font-size: 18px;
-  font-weight: bold;
-  vertical-align: top;
-  overflow: auto;
 }

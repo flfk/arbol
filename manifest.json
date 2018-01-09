@@ -14,7 +14,7 @@
 		//use matches call a match for any web page that that matches these formats (note * is wildcard for 0 or more characters)
 		"matches": ["http://*/", "https://*/*"],
 		"css": ["style.css"],
-		"js": ["myScript2.js"]
+		"js": ["jquery-3.2.1.js", "main.js"]
 		}
 	],
 
