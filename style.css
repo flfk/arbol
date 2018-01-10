@@ -1,4 +1,6 @@
-/* style file will style the iframe created in myScript.js */
+/* style file will style the both the iframe created in main.js
+ * as well as the toolbar.html itself, which sits in the iframe.
+ */
 
 body {
   /*overflow: hidden;*/
@@ -12,13 +14,22 @@ body {
   z-index: 938089;
   border: thin solid #CCC;
   background-color: #F4F4F4;
-  /*pointer-events: none; allows clicking of elements underneath*/
+}
+
+.kill {
+  position: fixed;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  background-size: contain;
+  border: thin solid #CCC;
+  background-color: #F4F4F4;
+  border-radius: 5px;
 }
 
 .bottomBar {
   vertical-align: top;
   margin: 0px 40px;
-  /*pointer-events: all;*/
 }
 
 .cross {
@@ -45,5 +56,6 @@ body {
 }
 
 .mouseOver {
+  height: 25px;
   width: 25px;
 }

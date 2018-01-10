@@ -1,12 +1,3 @@
-function acceptXml(xml) {
-    // Process XML
-}
-
-function sendXml(frameName, xml) {
-    var frame = window.parent.frames[frameName];
-    frame.acceptXml(xml);
-}
-
 $(document).ready(function() {
   // Populate stats
   var tree_count = 400;
@@ -26,8 +17,19 @@ $(document).ready(function() {
   );
   $('.cross').on('click', function(){
     //$('.bottomBar').hide();
-    parent.document.getElementById(window.name).style.display = 'none';
+    //parent.document.getElementById(window.name).style.display = 'none';
     //console.log($('#iframe'));
     //iframe.contentWindow.postMessage(/*any variable or object here*/, '*');
+
+    //https://developer.chrome.com/extensions/tabs#method-query
+    /*chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
+        console.log(response.farewell);
+      });
+    });*/
+    chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+      console.log(response.farewell);
+    }); //non-functional code
+
   });
 });

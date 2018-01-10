@@ -123,14 +123,24 @@ document.addEventListener('DOMContentLoaded', () => {
       changeBackgroundColor(dropdown.value);
       saveBackgroundColor(url, dropdown.value);
     });
-
-    // Arbol code
-    var kill_button = document.getElementById('kill');
-    kill_button.addEventListener('click', () => {
-      chrome.tabs.executeScript({
-        code: "document.getElementById('iframe').style.display='none'; document.body.style.padding = '0';"
-      });
-    });
-    // note: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
   });
+
+  // Arbol code
+  var kill_button = document.getElementById('kill');
+  kill_button.addEventListener('click', () => {
+    chrome.tabs.executeScript({
+      code: "document.getElementById('iframe').style.display='none'; document.body.style.padding = '0';"
+    });
+  });
+  // note: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      console.log(sender.tab ?
+                  "from a content script:" + sender.tab.url :
+                  "from the extension");
+      if (request.greeting == "hello")
+        sendResponse({farewell: "goodbye"});
+    }
+  );
 });

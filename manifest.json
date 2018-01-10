@@ -10,7 +10,8 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-    "activeTab",
+		"tabs",
+		"activeTab",
     "storage"
   ],
 
@@ -19,13 +20,14 @@
 		//use matches call a match for any web page that that matches these formats (note * is wildcard for 0 or more characters)
 		"matches": ["http://*/", "https://*/*"],
 		"css": ["style.css"],
-		"js": ["jquery-3.2.1.js", "main.js", "toolbar_iframe_script.js"]
+		"js": ["jquery-3.2.1.js", "main.js"]
 		}
 	],
 
 	//declare what we want to use in content scripts and avialable for user to see
 	"web_accessible_resources": [
 		"toolbar.html",
-		"style.css"
+		"style.css",
+		"images/*"
 	]
 }
