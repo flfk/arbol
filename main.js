@@ -14,7 +14,6 @@ document.body.style.padding = '0px 0px '+height; //set margin height
 var kill = document.createElement('img');
 kill.classList.add('kill');
 kill.name = 'kill';
-kill.style.bottom = height;
 kill.src = chrome.extension.getURL('images/cross.png');
 document.documentElement.appendChild(kill);﻿
 

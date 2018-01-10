@@ -9,6 +9,7 @@
     "default_icon": "images/Tree-icon.png",
     "default_popup": "popup.html"
   },
+	
   "permissions": [
 		"tabs",
 		"activeTab",

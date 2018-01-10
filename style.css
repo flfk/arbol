@@ -18,13 +18,15 @@ body {
 
 .kill {
   position: fixed;
+  bottom: 55px;
   right: 0;
-  height: 20px;
-  width: 20px;
-  background-size: contain;
-  border: thin solid #CCC;
+  height: 15px;
+  width: 15px;
+  /*background-size: contain;*/
+  z-index: 938090;
+  /*border: thin solid #CCC;
   background-color: #F4F4F4;
-  border-radius: 5px;
+  border-radius: 5px;*/
 }
 
 .bottomBar {
@@ -56,6 +58,7 @@ body {
 }
 
 .mouseOver {
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
+  bottom: 50px;
 }
