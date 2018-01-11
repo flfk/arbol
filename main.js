@@ -53,17 +53,16 @@ chrome.runtime.onMessage.addListener(function(stats_received, sender, sendRespon
 
 // returns a string with the stats trees planted and pages left
 function treeStats (stats) {
-    var plural_trees = "s";
-    if (stats.trees_planted == 1) {
-        var plural_trees = "";
-    }
-    var tree_string = stats.trees_planted+" tree"+plural_trees+" planted";
-
-    var plural_pages = "s";
-    if (stats.pages_left == 1) {
-        var plural_pages = "";
-    }
-    var pages_left_string = stats.pages_left+" page"+plural_pages+" until next tree";
+    var tree_string = pluralize(stats.trees_planted, "trees", "planted")
+    var pages_left_string = pluralize(stats.pages_left, "pages", "until next tree")
 
     return tree_string+"<br>"+pages_left_string;
+}
+
+// formats strings correctly according to plurality i.e. 0 trees, 1 tree, 2 trees
+function pluralize (number, units, end) {
+    if (number == 1) {
+        units = units.slice(0, -1); // slice off the s at the end of the word
+    }
+    return number+" "+units+" "+end;
 }
