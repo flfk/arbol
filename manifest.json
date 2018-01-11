@@ -1,22 +1,26 @@
 {
 	"manifest_version": 2,
 
-	"name": "Blank Tool Bar",
-	"description": "Blank Tool Bar Description",
+	"name": "Project Arbol",
+	"description": "Lets you plant trees by allowing ads in your browser",
 	"version": "1.0",
 
 	"browser_action": {
     "default_icon": "images/Tree-icon.png",
     "default_popup": "popup.html"
   },
-	
+
   "permissions": [
 		"tabs",
 		"activeTab",
     "storage"
   ],
 
-	"content_scripts": [
+	"background": {
+    "scripts":["background.js"]
+	},
+
+  "content_scripts": [
 		{
 		//use matches call a match for any web page that that matches these formats (note * is wildcard for 0 or more characters)
 		"matches": ["http://*/", "https://*/*"],
