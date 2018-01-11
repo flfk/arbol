@@ -1,3 +1,5 @@
+//ENTIRE FILE DEFUNCT 11/01/17
+
 $(document).ready(function() {
   // Populate stats
   var tree_count = 400;
@@ -27,9 +29,5 @@ $(document).ready(function() {
         console.log(response.farewell);
       });
     });*/
-    chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-      console.log(response.farewell);
-    }); //non-functional code
-
   });
 });

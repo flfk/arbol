@@ -36,23 +36,23 @@ body {
 
 .bottomBar {
   vertical-align: top;
-  margin: 0px 40px;
+  margin: 0px 200px;
 }
 
-.cross {
+/*.cross {
   width: 20px;
   vertical-align: top;
   float: right;
-}
+}*/
 
-#treeCount, #pagesLeft {
+/*#treeCount, #pagesLeft {
   font-size: 14px;
   font-weight: bold;
   display: inline-block;
   width: 100px;
   vertical-align: top;
   padding-top: 10px;
-}
+}*/
 
 /* note, scaled down banner to fit into 70px bar */
 .banner_728x90 {
@@ -63,11 +63,15 @@ body {
 }
 
 .arbol_test {
-  position: fixed;
-  bottom: 50px;
-  left: 0;
-  height: 20px;
-  width: 130px;
   z-index: 938090;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+  width: 130px;
   background-color: grey;
+  padding: 5px;
+  margin: 5px;
+  font: 12px "Fira Sans", sans-serif;
+  color: #333;
 }
