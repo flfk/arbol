@@ -4,7 +4,7 @@ document.body.style.padding = '0px 0px '+height; //set margin height
 
 
 //Create and add container for bottom bar
-var height = '70px';
+var height = '110px';
 var iframe = document.createElement('iframe');
 iframe.src = chrome.extension.getURL('toolbar.html');
 iframe.id = 'iframe';
@@ -54,8 +54,7 @@ chrome.runtime.onMessage.addListener(function(stats_received, sender, sendRespon
 // returns a string with the stats trees planted and pages left
 function treeStats (stats) {
     var tree_string = pluralize(stats.trees_planted, "trees", "planted")
-    var pages_left_string = pluralize(stats.pages_left, "pages", "until next tree")
-
+    var pages_left_string = pluralize(stats.pages_left, "pages", "to next tree")
     return tree_string+"<br>"+pages_left_string;
 }
 

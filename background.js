@@ -70,7 +70,7 @@
             }
 
             chrome.browserAction.setBadgeText({text:texto});
-            chrome.browserAction.setBadgeBackgroundColor({color:[0,255,0,255]});
+            chrome.browserAction.setBadgeBackgroundColor({color:[0,151,151,151]});
         }
 
 

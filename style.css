@@ -2,8 +2,14 @@
  * as well as the toolbar.html itself, which sits in the iframe.
  */
 
+* {
+  /* border: thin solid red; */
+}
+
 body {
   /*overflow: hidden;*/
+  margin: 0px;
+  padding: 0px;
 }
 
 #iframe {
@@ -12,14 +18,14 @@ body {
   left: 0;
   width: 100%;
   z-index: 938089;
-  border: thin solid #CCC;
-  background-color: #F4F4F4;
+  border-top: thin solid #979797;
+  background-color: #F2F2F2;
 }
 
 .kill {
   position: fixed;
-  bottom: 55px;
-  right: 0;
+  bottom: 90px;
+  right: 5px;
   height: 15px;
   width: 15px;
   /*background-size: contain;*/
@@ -34,10 +40,6 @@ body {
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 
-.bottomBar {
-  vertical-align: top;
-  margin: 0px 200px;
-}
 
 /*.cross {
   width: 20px;
@@ -54,24 +56,41 @@ body {
   padding-top: 10px;
 }*/
 
-/* note, scaled down banner to fit into 70px bar */
+.BottomBarTreeIcon {
+  height: 70px;
+  width: 56px;
+  margin: 0px 0px 10px 15px;
+}
+
+.placeholderStats {
+  height: 98px;
+  width: 298px;
+  display: inline-block;
+}
+
 .banner_728x90 {
-  height: 60px;
-  width: 468px;
-  position: relative;
-  /* display: inline-block; */
+  height: 90px;
+  width: 728px;
+  /* left: 352px; */
+  /* position: relative; */
+  display: inline-block;
 }
 
 .arbol_test {
   z-index: 938090;
   position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 50px;
-  width: 130px;
-  background-color: grey;
-  padding: 5px;
-  margin: 5px;
-  font: 12px "Fira Sans", sans-serif;
+  bottom: 17.5px;
+  left: 112px;
+  height: 75px;
+  width: 250px;
+  padding: 0;
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
   color: #333;
+  border: thick solid red;
+}
+
+.treeStats {
+  font-size: 50px;
 }

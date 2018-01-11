@@ -2,11 +2,11 @@
 
 $(document).ready(function() {
   // Populate stats
-  var tree_count = 400;
-  $('#treeCount').prepend(tree_count);
-  var pages_left = 48;
-  $('#pagesLeft').prepend(pages_left);
-  pages_left--; // doesn't work this way
+  // var tree_count = 400;
+  // $('#treeCount').prepend(tree_count);
+  // var pages_left = 48;
+  // $('#pagesLeft').prepend(pages_left);
+  // pages_left--; // doesn't work this way
 
   // Snooze functionality
   $('.cross').hover(
