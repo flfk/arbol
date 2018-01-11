@@ -83,14 +83,63 @@ body {
   left: 112px;
   height: 75px;
   width: 250px;
-  padding: 0;
+  /* padding: 0;
   margin: 0;
   font-family: 'Quicksand', sans-serif;
   font-size: 20px;
-  color: #333;
-  border: thick solid red;
+  color: #00000087;
+  border: thick solid brown; */
 }
 
-.treeStats {
-  font-size: 50px;
+/* Below formats and positions stats */
+
+.treesPlantedNum .treesPlantedText .pagesLeftNum .pagesLeftText {
+  z-index: 938090;
+  position: fixed;
+  bottom: 18px;
+  height: 50px;
+  width: 50px;
 }
+
+.treesPlantedNum .pagesLeftNum {
+  height: 60px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 48px;
+  color: #00000087;
+}
+
+.treesPlantedText .pagesLeftText {
+  height: 15px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 12px;
+  color: #00000054;
+}
+
+.treesPlantedNum .treesPlantedText {
+  left: 30px;
+}
+
+.pagesLeftNum .pagesLeftText {
+  left: 50px;
+}
+
+.treesPlantedNum {
+  border: thin solid black;
+}
+
+.treesPlantedText {
+  border: thin solid yellow;
+}
+
+.pagesLeftNum {
+  border: thin solid orange;
+}
+
+.pagesLeftText {
+  border: thin solid yellow;
+}
+
+
+/* .treeStats {
+  font-size: 50px;
+} */
