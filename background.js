@@ -47,10 +47,10 @@
               // for (i=0; i<tabs.length; i++) {
               //     text = text + ' id'+i+" "+tabs[i].id;
               // }
-              // // alert(JSON.stringify(text));
+              // alert(JSON.stringify(text));
 
               // send updated page count to all tabs
-              var message = {page_count: page_count};
+              var message = {trees_planted: trees_planted, pages_left: pages_left, page_count: page_count};
               for (i=0; i<tabs.length; i++) {
                   chrome.tabs.sendMessage(tabs[i].id, message, function(response){});
               }
@@ -63,10 +63,10 @@
 
         // Display latest page count on the extension badge next to omnibar
         function badge() {
-            var texto = String(page_count);
-            if(page_count>1000)
+            var texto = String(trees_planted);
+            if(trees_planted>1000)
             {
-                texto = String(Math.floor(page_count/1000) + "K")
+                texto = String(Math.floor(trees_planted/1000) + "K")
             }
 
             chrome.browserAction.setBadgeText({text:texto});
@@ -75,9 +75,10 @@
 
 
         //When extension ends, saves the counter and the time.
-        function saveStatistics()
-        {
-            localStorage.PC_stored_page_count =  JSON.stringify( page_count ) ;
+        function saveStatistics() {
+            localStorage.PC_stored_page_count =  JSON.stringify(page_count);
+            localStorage.PC_trees_planted_save = JSON.stringify(trees_planted);
+            localStorage.PC_pages_left_save = JSON.stringify(pages_left);
             // localStorage.PC_first_initialized =  JSON.stringify( first_initialized.getTime() ) ;
             //
             // //Not sure if this block is necessary WIP
@@ -92,18 +93,21 @@
 
 
         //Load the number of pages visited from the last time
-        function loadStatistics()
-        {
+        function loadStatistics() {
 
             if (!localStorage.PC_stored_page_count)   //If no data found
             {
                 page_count = 0;
+                trees_planted = 0;
+                pages_left = pages_per_tree;
                 // first_initialized = new Date();
                 // time_acumulated = 0
             }
             else  //There are data in localstorage
             {
                 page_count = JSON.parse(localStorage.PC_stored_page_count);
+                trees_planted = JSON.parse(localStorage.PC_trees_planted_save);
+                pages_left = JSON.parse(localStorage.PC_pages_left_save);
                 // first_initialized = new Date((Number(JSON.parse(localStorage.PC_first_initialized))));
                 // time_acumulated = (Number(JSON.parse(localStorage.PC_time_acumulated))); //WIP delete outer brackets?
             }
@@ -111,7 +115,14 @@
 
 
         //increases the counter and calls badge's refresh function
-        function increment_page_count(){
+        function increment_page_count() {
+            if (pages_left == 1) {
+              trees_planted++;
+              pages_left = pages_per_tree;
+            } else {
+              pages_left--;
+            }
+
             page_count++;
             badge();
             saveStatistics();
