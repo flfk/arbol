@@ -59,14 +59,14 @@
                 case "snooze":
                     last_snoozed = new Date();
                     saveStatistics();
-                    alert(currentlySnoozed());
+                    alert("currentlySnoozedtrue="+currentlySnoozed());
                     break;
 
 
                 case "unsnooze":
-                    // last_snoozed = new Date();
-                    // saveStatistics();
-                    alert('currentlySnoozed()');
+                    last_snoozed = new Date(0);
+                    saveStatistics();
+                    alert("currentlySnoozedfalse="+currentlySnoozed());
                     break;
 
 

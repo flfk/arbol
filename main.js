@@ -25,9 +25,10 @@ document.documentElement.appendChild(kill);﻿
 kill.addEventListener('click', () => {
     var iframe_elements = document.getElementsByClassName('iframe_element');
     for (i=0; i<iframe_elements.length; i++) {
-        iframe_elements[i].style.display = 'none';
+        iframe_elements[i].classList.add('hide');
     }
     document.body.style.padding = '0';
+
     //Send message to background.js for snooze start
     chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
 });

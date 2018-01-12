@@ -128,14 +128,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Arbol code
   var kill_button = document.getElementById('kill');
   kill_button.addEventListener('click', () => {
-    chrome.tabs.executeScript({
-      code: "document.getElementById('iframe').style.display='none'; document.body.style.padding = '0';"
-    });
+      chrome.tabs.executeScript({
+          code: "document.getElementById('iframe').style.display='none'; document.body.style.padding = '0';"
+      });
   });
 
   var unsnooze_button = document.getElementById('unsnooze');
   unsnooze_button.addEventListener('click', () => {
+      var script = "\
+          var iframe_elements = document.getElementsByClassName('iframe_element');\
+          for (i=0; i<iframe_elements.length; i++) {\
+              iframe_elements[i].classList.remove('hide');\
+          }\
+          document.body.style.padding = '70px';\
+      ";
+      chrome.tabs.executeScript({
+          code: script
+      });
+
+      //Send message to background.js for unsnooze
       chrome.runtime.sendMessage({message: "unsnooze"}, function(response) {});
+
   });
 
   // function messageAllTabs (message) {
