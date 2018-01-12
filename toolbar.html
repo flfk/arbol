@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src=“https://www.googletagmanager.com/gtag/js?id=UA-112401612-1“></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag(‘js’, new Date());
+
+     gtag(‘config’, ‘UA-112401612-1’);
+    </script>
+
     <meta charset="utf-8">
     <title> Arbol Bar </title>
     <link rel="stylesheet" href="style.css">
@@ -8,10 +18,9 @@
     <script type="text/javascript" src="jquery-3.2.1.js"></script>
     <script type="text/javascript" src="toolbar_iframe_script.js"></script>
   </head>
-  <body>
-    <img src="images/BottomBarTreeIcon.png" alt="Icon of three trees" class='BottomBarTreeIcon'>
-    <div class="placeholderStats">
-    </div>
+  <body class="no_scroll">
+    <img src="images/BottomBarTreeIcon.png" alt="Icon of three trees" class='bottomBarTreeIcon'>
+    <div class="placeholderStats"></div>
     <img src="images/banner_728x90.gif" alt="banner2" class="banner_728x90">
   </body>
 </html>

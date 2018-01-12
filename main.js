@@ -21,7 +21,7 @@ document.documentElement.appendChild(kill);﻿
 kill.addEventListener('click', () => {
     var iframe_elements = document.getElementsByClassName('iframe_element');
     for (i=0; i<iframe_elements.length; i++) {
-        iframe_elements[i].classList.add('hide');
+        iframe_elements[i].classList.add('arbol_hide');
     }
     document.body.style.padding = '0';
 
@@ -58,7 +58,15 @@ pagesLeftText.classList.add('pagesLeftText');
 document.documentElement.appendChild(pagesLeftText);
 
 //Send message to background.js to count new page load
-chrome.runtime.sendMessage({message: "new page"}, function(response) {});
+chrome.runtime.sendMessage({message: "new page"}, function(response) {
+    if (response.currentlySnoozed) {
+        var iframe_elements = document.getElementsByClassName('iframe_element');
+        for (i=0; i<iframe_elements.length; i++) {
+            iframe_elements[i].classList.add('arbol_hide');
+        }
+        document.body.style.padding = height;
+    }
+});
 
 //Listen for the updated tree stats from background.js even if this isn't the active tab
 chrome.runtime.onMessage.addListener(function(stats_received, sender, sendResponse){
@@ -67,8 +75,6 @@ chrome.runtime.onMessage.addListener(function(stats_received, sender, sendRespon
     pagesLeftNum.innerHTML = stats_received.pages_left;
     treesPlantedText.innerHTML = pluralize(stats_received.trees_planted, "trees", "planted");
     pagesLeftText.innerHTML = pluralize(stats_received.pages_left, "pages", "to next tree");
-
-    // sendResponse({}); // no need to send response
 
 });
 

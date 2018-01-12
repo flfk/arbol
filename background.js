@@ -50,23 +50,25 @@
                     var updated_stats = {
                         trees_planted: trees_planted,
                         pages_left: pages_left,
-                        page_count: page_count
+                        page_count: page_count,
                     }
                     messageAllTabs (updated_stats);
+
+                    sendResponse({currentlySnoozed: currentlySnoozed()});
                     break;
 
 
                 case "snooze":
                     last_snoozed = new Date();
                     saveStatistics();
-                    alert("currentlySnoozedtrue="+currentlySnoozed());
+                    // alert("currentlySnoozedtrue="+currentlySnoozed());
                     break;
 
 
                 case "unsnooze":
                     last_snoozed = new Date(0);
                     saveStatistics();
-                    alert("currentlySnoozedfalse="+currentlySnoozed());
+                    // alert("currentlySnoozedfalse="+currentlySnoozed());
                     break;
 
 
