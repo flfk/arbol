@@ -86,16 +86,15 @@
                 var now = new Date();
                 var snooze_left = snooze_duration - ( now.getTime() - last_snoozed.getTime() );
                 chrome.browserAction.setBadgeText({text:formatTime(snooze_left)});
-                chrome.browserAction.setBadgeBackgroundColor({color:[0,255,0,255]});
+                chrome.browserAction.setBadgeBackgroundColor({color:[0,151,151,151]});
             } else {
                 var texto = String(trees_planted);
                 if(trees_planted>1000)
                 {
                     texto = String(Math.floor(trees_planted/1000) + "K")
                 }
-
                 chrome.browserAction.setBadgeText({text:texto});
-                chrome.browserAction.setBadgeBackgroundColor({color:[0,255,0,255]});
+                chrome.browserAction.setBadgeBackgroundColor({color:[0,151,151,151]});
             }
         }
 

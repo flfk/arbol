@@ -2,8 +2,14 @@
  * as well as the toolbar.html itself, which sits in the iframe.
  */
 
+* {
+  /* border: thin solid red; */
+}
+
 body {
-  /*overflow: hidden;*/
+  /* overflow: hidden; */
+  margin: 0px;
+  padding: 0px;
 }
 
 #iframe {
@@ -12,21 +18,17 @@ body {
   left: 0;
   width: 100%;
   z-index: 938089;
-  border: thin solid #CCC;
-  background-color: #F4F4F4;
+  border-top: thin solid #979797;
+  background-color: #F2F2F2;
 }
 
 .kill {
   position: fixed;
-  bottom: 55px;
-  right: 0;
+  bottom: 90px;
+  right: 5px;
   height: 15px;
   width: 15px;
-  /*background-size: contain;*/
   z-index: 938090;
-  /*border: thin solid #CCC;
-  background-color: #F4F4F4;
-  border-radius: 5px;*/
 }
 
 .kill:hover {
@@ -34,48 +36,58 @@ body {
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 
-.bottomBar {
-  vertical-align: top;
-  margin: 0px 200px;
+.BottomBarTreeIcon {
+  height: 70px;
+  width: 56px;
+  margin: 0px 0px 10px 15px;
 }
 
-/*.cross {
-  width: 20px;
-  vertical-align: top;
-  float: right;
-}*/
-
-/*#treeCount, #pagesLeft {
-  font-size: 14px;
-  font-weight: bold;
+.placeholderStats {
+  height: 98px;
+  width: 298px;
   display: inline-block;
-  width: 100px;
-  vertical-align: top;
-  padding-top: 10px;
-}*/
-
-/* note, scaled down banner to fit into 70px bar */
-.banner_728x90 {
-  height: 60px;
-  width: 468px;
-  position: relative;
-  /* display: inline-block; */
 }
 
-.arbol_test {
-  z-index: 938090;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  height: 50px;
-  width: 130px;
-  background-color: grey;
-  padding: 5px;
-  margin: 5px;
-  font: 12px "Fira Sans", sans-serif;
-  color: #333;
+.banner_728x90 {
+  height: 90px;
+  width: 728px;
+  display: inline-block;
 }
 
 .arbol_hide {
   display: none;
+}
+
+/* Below formats and positions stats */
+
+.treesPlantedNum, .treesPlantedText, .pagesLeftNum, .pagesLeftText {
+  z-index: 938090;
+  position: fixed;
+}
+
+.treesPlantedNum, .pagesLeftNum {
+  height: 60px;
+  bottom: 33px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 48px;
+  font-weight: medium;
+  color: #00000087;
+}
+
+.treesPlantedText, .pagesLeftText {
+  height: 15px;
+  bottom: 17.5px;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 12px;
+  color: #00000054;
+}
+
+.treesPlantedNum, .treesPlantedText {
+  width: 78px;
+  left: 112px;
+}
+
+.pagesLeftNum, .pagesLeftText {
+  width: 122px;
+  left: 210px;
 }
