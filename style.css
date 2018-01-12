@@ -7,7 +7,7 @@
 }
 
 body {
-  /*overflow: hidden;*/
+  overflow: hidden;
   margin: 0px;
   padding: 0px;
 }
@@ -28,33 +28,13 @@ body {
   right: 5px;
   height: 15px;
   width: 15px;
-  /*background-size: contain;*/
   z-index: 938090;
-  /*border: thin solid #CCC;
-  background-color: #F4F4F4;
-  border-radius: 5px;*/
 }
 
 .kill:hover {
   opacity: 0.5;
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
-
-
-/*.cross {
-  width: 20px;
-  vertical-align: top;
-  float: right;
-}*/
-
-/*#treeCount, #pagesLeft {
-  font-size: 14px;
-  font-weight: bold;
-  display: inline-block;
-  width: 100px;
-  vertical-align: top;
-  padding-top: 10px;
-}*/
 
 .BottomBarTreeIcon {
   height: 70px;
@@ -71,75 +51,39 @@ body {
 .banner_728x90 {
   height: 90px;
   width: 728px;
-  /* left: 352px; */
-  /* position: relative; */
   display: inline-block;
-}
-
-.arbol_test {
-  z-index: 938090;
-  position: fixed;
-  bottom: 17.5px;
-  left: 112px;
-  height: 75px;
-  width: 250px;
-  /* padding: 0;
-  margin: 0;
-  font-family: 'Quicksand', sans-serif;
-  font-size: 20px;
-  color: #00000087;
-  border: thick solid brown; */
 }
 
 /* Below formats and positions stats */
 
-.treesPlantedNum .treesPlantedText .pagesLeftNum .pagesLeftText {
+.treesPlantedNum, .treesPlantedText, .pagesLeftNum, .pagesLeftText {
   z-index: 938090;
   position: fixed;
-  bottom: 18px;
-  height: 50px;
-  width: 50px;
 }
 
-.treesPlantedNum .pagesLeftNum {
+.treesPlantedNum, .pagesLeftNum {
   height: 60px;
+  bottom: 33px;
   font-family: 'Quicksand', sans-serif;
   font-size: 48px;
+  font-weight: medium;
   color: #00000087;
 }
 
-.treesPlantedText .pagesLeftText {
+.treesPlantedText, .pagesLeftText {
   height: 15px;
+  bottom: 17.5px;
   font-family: 'Quicksand', sans-serif;
   font-size: 12px;
   color: #00000054;
 }
 
-.treesPlantedNum .treesPlantedText {
-  left: 30px;
+.treesPlantedNum, .treesPlantedText {
+  width: 78px;
+  left: 112px;
 }
 
-.pagesLeftNum .pagesLeftText {
-  left: 50px;
+.pagesLeftNum, .pagesLeftText {
+  width: 122px;
+  left: 210px;
 }
-
-.treesPlantedNum {
-  border: thin solid black;
-}
-
-.treesPlantedText {
-  border: thin solid yellow;
-}
-
-.pagesLeftNum {
-  border: thin solid orange;
-}
-
-.pagesLeftText {
-  border: thin solid yellow;
-}
-
-
-/* .treeStats {
-  font-size: 50px;
-} */
