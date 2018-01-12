@@ -54,6 +54,10 @@ body {
   display: inline-block;
 }
 
+.arbol_hide {
+  display: none;
+}
+
 /* Below formats and positions stats */
 
 .treesPlantedNum, .treesPlantedText, .pagesLeftNum, .pagesLeftText {

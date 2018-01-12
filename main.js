@@ -1,8 +1,8 @@
 //Resize document body to make room for bottom bar
+var height = '110px';
 document.body.style.padding = '0px 0px '+height; //set margin height
 
 //Create and add container for bottom bar
-var height = '110px';
 var iframe = document.createElement('iframe');
 iframe.src = chrome.extension.getURL('toolbar.html');
 iframe.id = 'iframe';
@@ -21,15 +21,13 @@ document.documentElement.appendChild(kill);﻿
 kill.addEventListener('click', () => {
     var iframe_elements = document.getElementsByClassName('iframe_element');
     for (i=0; i<iframe_elements.length; i++) {
-        iframe_elements[i].style.display = 'none';
+        iframe_elements[i].classList.add('hide');
     }
     document.body.style.padding = '0';
-});
 
-var stats_div = document.createElement('div');
-stats_div.classList.add('arbol_test');
-stats_div.classList.add('iframe_element');
-document.documentElement.appendChild(stats_div);﻿
+    //Send message to background.js for snooze start
+    chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
+});
 
 //Add empty div to display Trees Planted Number
 var treesPlantedNum = document.createElement('div');
