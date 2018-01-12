@@ -132,15 +132,18 @@ document.addEventListener('DOMContentLoaded', () => {
       code: "document.getElementById('iframe').style.display='none'; document.body.style.padding = '0';"
     });
   });
-  // note: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 
-  chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-      console.log(sender.tab ?
-                  "from a content script:" + sender.tab.url :
-                  "from the extension");
-      if (request.greeting == "hello")
-        sendResponse({farewell: "goodbye"});
-    }
-  );
+  var unsnooze_button = document.getElementById('unsnooze');
+  unsnooze_button.addEventListener('click', () => {
+      chrome.runtime.sendMessage({message: "unsnooze"}, function(response) {});
+  });
+
+  // function messageAllTabs (message) {
+  //   // message should be a JSON object
+  //   chrome.tabs.query({}, function(tabs) { // {} means no tab conditions/restrictions
+  //       for (i=0; i<tabs.length; i++) {
+  //           chrome.tabs.sendMessage(tabs[i].id, message, function(response){});
+  //       }
+  //   });
+  // }
 });

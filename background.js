@@ -63,6 +63,13 @@
                     break;
 
 
+                case "unsnooze":
+                    // last_snoozed = new Date();
+                    // saveStatistics();
+                    alert('currentlySnoozed()');
+                    break;
+
+
                 default:
                     alert('background.js onMessage.addListener error')
                     break;
@@ -75,7 +82,7 @@
 
         // Display latest page count on the extension badge next to omnibar
         function updateBadge() {
-            if (true) {
+            if (currentlySnoozed()) {
                 var now = new Date();
                 var snooze_left = snooze_duration - ( now.getTime() - last_snoozed.getTime() );
                 chrome.browserAction.setBadgeText({text:formatTime(snooze_left)});
@@ -90,14 +97,6 @@
                 chrome.browserAction.setBadgeText({text:texto});
                 chrome.browserAction.setBadgeBackgroundColor({color:[0,255,0,255]});
             }
-            // var texto = String(trees_planted);
-            // if(trees_planted>1000)
-            // {
-            //     texto = String(Math.floor(trees_planted/1000) + "K")
-            // }
-            //
-            // chrome.browserAction.setBadgeText({text:texto});
-            // chrome.browserAction.setBadgeBackgroundColor({color:[0,255,0,255]});
         }
 
 
