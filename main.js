@@ -28,6 +28,8 @@ kill.addEventListener('click', () => {
         iframe_elements[i].style.display = 'none';
     }
     document.body.style.padding = '0';
+    //Send message to background.js for snooze start
+    chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
 });
 
 
