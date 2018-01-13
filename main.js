@@ -4,7 +4,7 @@ document.body.style.padding = '0px 0px '+height; //set margin height
 
 //Create and add container for bottom bar
 var iframe = document.createElement('iframe');
-iframe.src = chrome.extension.getURL('toolbar.html');
+iframe.src = 'https://flfk.github.io/';
 iframe.id = 'iframe';
 iframe.classList.add('iframe_element');
 iframe.style.height = height;
