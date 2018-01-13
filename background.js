@@ -6,10 +6,10 @@
         var snooze_minutes = 60;
 
         // script variables
-        var page_count = 0;
-        var trees_planted = 0;
-        var pages_left = pages_per_tree;
-        var last_snoozed = new Date(0);
+        var page_count;
+        var trees_planted;
+        var pages_left;
+        var last_snoozed;
         var snooze_duration = snooze_minutes*60*1000;
         // var session_start = new Date();	    //To save the amount of time browsing this session
         // var first_initialized = new Date();	    //Check the time when chrome loads
@@ -50,11 +50,12 @@
                     var updated_stats = {
                         trees_planted: trees_planted,
                         pages_left: pages_left,
-                        page_count: page_count,
+                        page_count: page_count
+                        // currentlySnoozed: currentlySnoozed()
                     }
                     messageAllTabs (updated_stats);
 
-                    sendResponse({currentlySnoozed: currentlySnoozed()});
+                    // sendResponse({});
                     break;
 
 

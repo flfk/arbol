@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
           for (i=0; i<iframe_elements.length; i++) {\
               iframe_elements[i].classList.remove('arbol_hide');\
           }\
-          document.body.style.padding = '110px';\
+          document.body.style.padding = '0px 0px 110px';\
       ";
       chrome.tabs.executeScript({
           code: script
