@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Arbol code
-  var kill_button = document.getElementById('kill');
-  kill_button.addEventListener('click', () => {
+  var snooze_button = document.getElementById('snooze');
+  snooze_button.addEventListener('click', () => {
       var script = "\
           document.getElementById('iframe_parent').classList.add('arbol_hide');\
           document.body.style.padding = '0';\

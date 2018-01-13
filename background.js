@@ -3,33 +3,19 @@
 
         // config variables
         var pages_per_tree = 100;
-        var snooze_minutes = 0.2;
+        var snooze_minutes = 1;
 
         // script variables
-        var page_count;
         var trees_planted;
         var pages_left;
         var last_snoozed;
         var currently_snoozed;
         var snooze_duration = snooze_minutes*60*1000;
-        // var session_start = new Date();	    //To save the amount of time browsing this session
-        // var first_initialized = new Date();	    //Check the time when chrome loads
-        // var time_acumulated = 0
-
-        // // localStorage.PC_uses counts the number of times script has run
-        // // localStorage.PC_stored_page_count
-        // // localStorage.PC_first_initialized stores the date first initialized
-        // // localStorage.PC_time_acumulated
-
-        //Initializes statistics - not sure if necessary WIP
-        // if (!localStorage.PC_uses)
-        //     localStorage.PC_uses = 1;
-        // else
-        //     localStorage.PC_uses = (parseInt(localStorage.PC_uses))+1;
 
 
         //Event when the extension is loaded: whether it is chrome who start or the user who enables the extension
         window.onload = function() {
+            chrome.alarms.clearAll();
             loadStatistics();
             updateBadge();
         };
@@ -51,8 +37,7 @@
                     var updated_stats = {
                         trees_planted: trees_planted,
                         pages_left: pages_left,
-                        page_count: page_count,
-                        currentlySnoozed: currentlySnoozed()
+                        currently_snoozed: currently_snoozed
                     }
                     messageAllTabs (updated_stats);
 
@@ -62,13 +47,11 @@
 
                 case "snooze":
                     setSnooze();
-                    // alert("currentlySnoozedtrue="+currentlySnoozed());
                     break;
 
 
                 case "unsnooze":
                     removeSnooze();
-                    // alert("currentlySnoozedfalse="+currentlySnoozed());
                     break;
 
 
@@ -83,9 +66,9 @@
         chrome.alarms.onAlarm.addListener(function(alarm){
             switch (alarm.name) {
                 case 'countdown':
-                    var time_until = last_snoozed.getTime() + snooze_duration - Date.now();
+                    var snooze_remaining = last_snoozed.getTime() + snooze_duration - Date.now();
                     var text = new Date(alarm.scheduledTime);
-                    chrome.browserAction.setBadgeText({text: formatTime(time_until)});
+                    chrome.browserAction.setBadgeText({text: formatTime(snooze_remaining)});
                     break;
 
                 case 'snooze_done':
@@ -103,10 +86,7 @@
         // Display latest page count on the extension badge next to omnibar
         function updateBadge() {
             if (currently_snoozed) {
-                var now = new Date();
-                var snooze_left = snooze_duration - ( now.getTime() - last_snoozed.getTime() );
-                chrome.browserAction.setBadgeText({text:formatTime(snooze_left)});
-                chrome.browserAction.setBadgeBackgroundColor({color:[0,151,151,151]});
+
             } else {
                 var texto = String(trees_planted);
                 if(trees_planted>1000)
@@ -121,11 +101,10 @@
 
         //When extension ends, saves the counter and the time.
         function saveStatistics() {
-            localStorage.PC_stored_page_count =  JSON.stringify(page_count);
             localStorage.PC_trees_planted_save = JSON.stringify(trees_planted);
             localStorage.PC_pages_left_save = JSON.stringify(pages_left);
             localStorage.PC_last_snoozed = JSON.stringify(last_snoozed.getTime());
-            localStorage.PC_currently_snoozed = JSON.stringify(currentlySnoozed);
+            localStorage.PC_currently_snoozed = JSON.stringify(currently_snoozed);
             // localStorage.PC_first_initialized =  JSON.stringify( first_initialized.getTime() ) ;
             //
             // //Not sure if this block is necessary WIP
@@ -142,23 +121,21 @@
         //Load the number of pages visited from the last time
         function loadStatistics() {
 
-            if (!localStorage.PC_stored_page_count)   //If no data found
+            if (!localStorage.PC_trees_planted_save)   //If no data found
             {
-                page_count = 0;
                 trees_planted = 0;
                 pages_left = pages_per_tree;
                 last_snoozed = new Date(0);
-                currentlySnoozed = false;
+                currently_snoozed = false;
                 // first_initialized = new Date();
                 // time_acumulated = 0
             }
             else  //There are data in localstorage
             {
-                page_count = JSON.parse(localStorage.PC_stored_page_count);
                 trees_planted = JSON.parse(localStorage.PC_trees_planted_save);
                 pages_left = JSON.parse(localStorage.PC_pages_left_save);
                 last_snoozed = new Date((Number(JSON.parse(localStorage.PC_last_snoozed))));
-                currentlySnoozed = false;
+                currently_snoozed = false;
                 // first_initialized = new Date((Number(JSON.parse(localStorage.PC_first_initialized))));
                 // time_acumulated = (Number(JSON.parse(localStorage.PC_time_acumulated)));
             }
@@ -174,32 +151,25 @@
               pages_left--;
             }
 
-            page_count++;
             updateBadge();
             saveStatistics();
-        }
-
-
-        // returns true/false for current snooze status
-        function currentlySnoozed() {
-            var now = new Date();
-            var time_since_last_snooze = now.getTime() - last_snoozed.getTime();
-
-            if (time_since_last_snooze < snooze_duration) {
-                return true;
-            } else {
-                return false;
-            }
         }
 
 
 
         function setSnooze() {
             chrome.alarms.create('snooze_done', {when: Date.now() + snooze_duration});
-            chrome.alarms.create('countdown', {when: Date.now(), periodInMinutes: 0.05});
+            chrome.alarms.create('countdown', {when: Date.now(), periodInMinutes: 0.005});
             last_snoozed = new Date();
             currently_snoozed = true;
             saveStatistics();
+
+            var updated_stats = {
+                trees_planted: trees_planted,
+                pages_left: pages_left,
+                currently_snoozed: currently_snoozed
+            }
+            messageAllTabs (updated_stats);
         }
 
 
@@ -209,6 +179,13 @@
             currently_snoozed = false;
             saveStatistics();
             updateBadge();
+
+            var updated_stats = {
+                trees_planted: trees_planted,
+                pages_left: pages_left,
+                currently_snoozed: currently_snoozed
+            }
+            messageAllTabs (updated_stats);
         }
 
 
@@ -260,22 +237,4 @@
 
         function error(error_message) {
             alert(error_message);
-        }
-
-
-//================ UNUSED FUNCTIONS ================//
-
-        //Time object
-        function tiempo (inicio, fin)
-        {
-            this.inicio = inicio;
-            this.fin = fin;
-        }
-
-        //Returns the time has been accumulated since the start of the program
-        function getAcumulado()
-        {
-            var now = new Date();
-            return (now.getTime() - session_start.getTime()) + time_acumulated;
-
         }

@@ -11,13 +11,13 @@ populateElements();
 chrome.runtime.sendMessage({message: "new page"}, function(response) {});
 
 //Listen for the response from background.js even if this isn't the active tab
+// Note: IF THERE ARE X TABS OPEN IT WILL RUN X TIMES ON EACH TAB
 chrome.runtime.onMessage.addListener(function(message_received, sender, sendResponse){
-    // alert('snooze? '+message_received.currentlySnoozed)
-    // if (message_received.currentlySnoozed) {
-    //     hideIframe();
-    // } else {
-    //     showIframe();
-    // }
+    if (message_received.currently_snoozed) {
+        iframe_parent.classList.add('arbol_hide');
+    } else {
+        iframe_parent.classList.remove('arbol_hide');
+    }
 
     displayStats(message_received);
 });
@@ -80,15 +80,10 @@ function createElement(tag, classes) {
 
 
 function displayStats(message) {
-    var trees_num = document.createTextNode(message.trees_planted);
-    var pages_num = document.createTextNode(message.pages_left);
-    var trees_text = document.createTextNode(pluralize(message.trees_planted, "trees", "planted")); //e.g. 0 trees planted
-    var pages_text = document.createTextNode(pluralize(message.pages_left, "pages", "to next tree")); // e.g. 1 page to next tree
-    treesPlantedNum.appendChild(trees_num);
-    pagesLeftNum.appendChild(pages_num);
-    treesPlantedText.appendChild(trees_text);
-    pagesLeftText.appendChild(pages_text);
-    //@flfk appendChild takes up much less processing power apparently
+    treesPlantedNum.innerHTML = message.trees_planted;
+    pagesLeftNum.innerHTML = message.pages_left;
+    treesPlantedText.innerHTML = pluralize(message.trees_planted, "trees", "planted");
+    pagesLeftText.innerHTML = pluralize(message.pages_left, "pages", "to next tree");
 }
 
 
