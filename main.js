@@ -2,7 +2,7 @@
 var height = '110px';
 document.body.style.padding = '0px 0px '+height; //set margin height
 
-var iframe, kill, treesPlantedNum, treesPlantedText, pagesLeftNum, pagesLeftText;
+var iframe_parent, iframe, kill, treesPlantedNum, treesPlantedText, pagesLeftNum, pagesLeftText;
 populateElements();
 
 
@@ -28,7 +28,7 @@ chrome.runtime.onMessage.addListener(function(message_received, sender, sendResp
 
 //Click to kill functionality
 kill.addEventListener('click', () => {
-    hideIframe();
+    iframe_parent.classList.add('arbol_hide');
     //Send message to background.js for snooze start
     chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
 });
@@ -42,32 +42,36 @@ kill.addEventListener('click', () => {
 
 function populateElements() {
     //Create and add container for bottom bar
+    iframe_parent = createElement('div', ['iframe_element']);
+    iframe_parent.id = 'iframe_parent';
+    document.documentElement.appendChild(iframe_parent);
+
     iframe = createElement('iframe', ['iframe_element']);
     iframe.src = 'https://flfk.github.io';
     iframe.id = 'iframe';
     iframe.style.height = height;
-    document.documentElement.appendChild(iframe);﻿
+    document.getElementById('iframe_parent').appendChild(iframe);﻿
 
     //Add a close/snooze button
     kill = createElement('img', ['iframe_element', 'kill']);
     kill.src = chrome.extension.getURL('images/cross.png');
-    document.documentElement.appendChild(kill);﻿
+    document.getElementById('iframe_parent').appendChild(kill);﻿
 
     //Add empty div to display Trees Planted Number
     treesPlantedNum = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedNum']);
-    document.documentElement.appendChild(treesPlantedNum);
+    document.getElementById('iframe_parent').appendChild(treesPlantedNum);
 
     //Add empty div to display Trees Planted Text
     treesPlantedText = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedText']);
-    document.documentElement.appendChild(treesPlantedText);
+    document.getElementById('iframe_parent').appendChild(treesPlantedText);
 
     //Add empty div to display Pages Left Number
     pagesLeftNum = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftNum']);
-    document.documentElement.appendChild(pagesLeftNum);
+    document.getElementById('iframe_parent').appendChild(pagesLeftNum);
 
     //Add empty div to display Trees Planted Text
     pagesLeftText = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftText']);
-    document.documentElement.appendChild(pagesLeftText);
+    document.getElementById('iframe_parent').appendChild(pagesLeftText);
 }
 
 
@@ -89,21 +93,21 @@ function appendIframe() {
 }
 
 
-function hideIframe() {
-    var iframe_elements = document.getElementsByClassName('iframe_element');
-    for (i=0; i<iframe_elements.length; i++) {
-        iframe_elements[i].classList.add('arbol_hide');
-    }
-    document.body.style.padding = '0';
-}
-
-function showIframe() {
-    var iframe_elements = document.getElementsByClassName('iframe_element');
-    for (i=0; i<iframe_elements.length; i++) {
-        iframe_elements[i].classList.remove('arbol_hide');
-    }
-    document.body.style.padding = height;
-}
+// function hideIframe() {
+//     var iframe_elements = document.getElementsByClassName('iframe_element');
+//     for (i=0; i<iframe_elements.length; i++) {
+//         iframe_elements[i].classList.add('arbol_hide');
+//     }
+//     document.body.style.padding = '0';
+// }
+//
+// function showIframe() {
+//     var iframe_elements = document.getElementsByClassName('iframe_element');
+//     for (i=0; i<iframe_elements.length; i++) {
+//         iframe_elements[i].classList.remove('arbol_hide');
+//     }
+//     document.body.style.padding = height;
+// }
 
 
 // formats strings correctly according to plurality i.e. 0 trees, 1 tree, 2 trees
