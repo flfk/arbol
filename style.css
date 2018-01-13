@@ -3,13 +3,11 @@
  */
 
 * {
-  /* border: thin solid red; */
+   /*border: thin solid red;*/
 }
 
-body {
-  /* overflow: hidden; */
-  margin: 0px;
-  padding: 0px;
+.no_scroll {
+  overflow: hidden;
 }
 
 #iframe {
@@ -36,7 +34,7 @@ body {
   filter: alpha(opacity=50); /* For IE8 and earlier */
 }
 
-.BottomBarTreeIcon {
+.bottomBarTreeIcon {
   height: 70px;
   width: 56px;
   margin: 0px 0px 10px 15px;
