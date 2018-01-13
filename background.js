@@ -3,13 +3,14 @@
 
         // config variables
         var pages_per_tree = 100;
-        var snooze_minutes = 60;
+        var snooze_minutes = 0.2;
 
         // script variables
         var page_count;
         var trees_planted;
         var pages_left;
         var last_snoozed;
+        var currently_snoozed;
         var snooze_duration = snooze_minutes*60*1000;
         // var session_start = new Date();	    //To save the amount of time browsing this session
         // var first_initialized = new Date();	    //Check the time when chrome loads
@@ -44,14 +45,14 @@
         chrome.runtime.onMessage.addListener(function(message_received, sender, sendResponse){
             switch (message_received.message) {
                 case "new page":
-                    increment_page_count(); //store new page count to localStorage
+                    decrement_pages_left(); //store new pages left to storage
 
                     //send message to all tabs with updated stats
                     var updated_stats = {
                         trees_planted: trees_planted,
                         pages_left: pages_left,
-                        page_count: page_count
-                        // currentlySnoozed: currentlySnoozed()
+                        page_count: page_count,
+                        currentlySnoozed: currentlySnoozed()
                     }
                     messageAllTabs (updated_stats);
 
@@ -60,32 +61,48 @@
 
 
                 case "snooze":
-                    last_snoozed = new Date();
-                    saveStatistics();
+                    setSnooze();
                     // alert("currentlySnoozedtrue="+currentlySnoozed());
                     break;
 
 
                 case "unsnooze":
-                    last_snoozed = new Date(0);
-                    saveStatistics();
+                    removeSnooze();
                     // alert("currentlySnoozedfalse="+currentlySnoozed());
                     break;
 
 
                 default:
-                    alert('background.js onMessage.addListener error')
+                    error('background.js onMessage.addListener error');
                     break;
             }
         });
 
 
+        // set up alarm listener
+        chrome.alarms.onAlarm.addListener(function(alarm){
+            switch (alarm.name) {
+                case 'countdown':
+                    var time_until = last_snoozed.getTime() + snooze_duration - Date.now();
+                    var text = new Date(alarm.scheduledTime);
+                    chrome.browserAction.setBadgeText({text: formatTime(time_until)});
+                    break;
+
+                case 'snooze_done':
+                    removeSnooze();
+                    break;
+
+                default:
+                    error(alarm.name+' arbol snooze error');
+                    break;
+            }
+        });
 
 //================ FUNCTIONS ================//
 
         // Display latest page count on the extension badge next to omnibar
         function updateBadge() {
-            if (currentlySnoozed()) {
+            if (currently_snoozed) {
                 var now = new Date();
                 var snooze_left = snooze_duration - ( now.getTime() - last_snoozed.getTime() );
                 chrome.browserAction.setBadgeText({text:formatTime(snooze_left)});
@@ -108,6 +125,7 @@
             localStorage.PC_trees_planted_save = JSON.stringify(trees_planted);
             localStorage.PC_pages_left_save = JSON.stringify(pages_left);
             localStorage.PC_last_snoozed = JSON.stringify(last_snoozed.getTime());
+            localStorage.PC_currently_snoozed = JSON.stringify(currentlySnoozed);
             // localStorage.PC_first_initialized =  JSON.stringify( first_initialized.getTime() ) ;
             //
             // //Not sure if this block is necessary WIP
@@ -130,6 +148,7 @@
                 trees_planted = 0;
                 pages_left = pages_per_tree;
                 last_snoozed = new Date(0);
+                currentlySnoozed = false;
                 // first_initialized = new Date();
                 // time_acumulated = 0
             }
@@ -139,9 +158,25 @@
                 trees_planted = JSON.parse(localStorage.PC_trees_planted_save);
                 pages_left = JSON.parse(localStorage.PC_pages_left_save);
                 last_snoozed = new Date((Number(JSON.parse(localStorage.PC_last_snoozed))));
+                currentlySnoozed = false;
                 // first_initialized = new Date((Number(JSON.parse(localStorage.PC_first_initialized))));
                 // time_acumulated = (Number(JSON.parse(localStorage.PC_time_acumulated)));
             }
+        }
+
+
+        //increases the counter and calls badge's refresh function
+        function decrement_pages_left() {
+            if (pages_left == 1) {
+              trees_planted++;
+              pages_left = pages_per_tree;
+            } else {
+              pages_left--;
+            }
+
+            page_count++;
+            updateBadge();
+            saveStatistics();
         }
 
 
@@ -159,19 +194,23 @@
 
 
 
-        //increases the counter and calls badge's refresh function
-        function increment_page_count() {
-            if (pages_left == 1) {
-              trees_planted++;
-              pages_left = pages_per_tree;
-            } else {
-              pages_left--;
-            }
-
-            page_count++;
-            updateBadge();
+        function setSnooze() {
+            chrome.alarms.create('snooze_done', {when: Date.now() + snooze_duration});
+            chrome.alarms.create('countdown', {when: Date.now(), periodInMinutes: 0.05});
+            last_snoozed = new Date();
+            currently_snoozed = true;
             saveStatistics();
         }
+
+
+        function removeSnooze() {
+            chrome.alarms.clearAll();
+            last_snoozed = new Date(0);
+            currently_snoozed = false;
+            saveStatistics();
+            updateBadge();
+        }
+
 
         //send a message to (main.js in) all tabs
         function messageAllTabs (message) {
@@ -214,7 +253,13 @@
                 badgeText = seconds+"s";
             }
 
+            // return hours+"h "+minutes+"m "+seconds+"s";
             return badgeText;
+        }
+
+
+        function error(error_message) {
+            alert(error_message);
         }
 
 

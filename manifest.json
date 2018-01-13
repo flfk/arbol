@@ -13,7 +13,8 @@
   "permissions": [
 		"tabs",
 		"activeTab",
-    "storage"
+    "storage",
+		"alarms"
   ],
 
 	"background": {

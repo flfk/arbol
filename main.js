@@ -1,15 +1,16 @@
-//Resize document body to make room for bottom bar
+//Resize document body to make room for iframe
 var height = '110px';
-document.body.style.padding = '0px 0px '+height; //set margin height
+document.body.style.padding = '0px 0px '+height; //set padding height
 
+//initialize iframe
 var iframe_parent, iframe, kill, treesPlantedNum, treesPlantedText, pagesLeftNum, pagesLeftText;
 populateElements();
 
 
-//Send message to background.js to count new page load
+//Send message to background.js on new page load
 chrome.runtime.sendMessage({message: "new page"}, function(response) {});
 
-//Listen for the updated tree stats from background.js even if this isn't the active tab
+//Listen for the response from background.js even if this isn't the active tab
 chrome.runtime.onMessage.addListener(function(message_received, sender, sendResponse){
     // alert('snooze? '+message_received.currentlySnoozed)
     // if (message_received.currentlySnoozed) {
@@ -18,12 +19,7 @@ chrome.runtime.onMessage.addListener(function(message_received, sender, sendResp
     //     showIframe();
     // }
 
-
-    treesPlantedNum.innerHTML = message_received.trees_planted;
-    pagesLeftNum.innerHTML = message_received.pages_left;
-    treesPlantedText.innerHTML = pluralize(message_received.trees_planted, "trees", "planted");
-    pagesLeftText.innerHTML = pluralize(message_received.pages_left, "pages", "to next tree");
-
+    displayStats(message_received);
 });
 
 //Click to kill functionality
@@ -74,7 +70,6 @@ function populateElements() {
     document.getElementById('iframe_parent').appendChild(pagesLeftText);
 }
 
-
 function createElement(tag, classes) {
     var newElement = document.createElement(tag);
     for (i=0; i<classes.length; i++) {
@@ -84,30 +79,17 @@ function createElement(tag, classes) {
 }
 
 
-function appendIframe() {
-    // var iframe_elements = document.getElementsByClassName('iframe_element');
-    // for (i=0; i<iframe_elements.length; i++) {
-    //     document.documentElement.appendChild(iframe_elements[i]);
-    // }
-    // document.body.style.padding = '0';
+function displayStats(message) {
+    var trees_num = document.createTextNode(message.trees_planted);
+    var pages_num = document.createTextNode(message.pages_left);
+    var trees_text = document.createTextNode(pluralize(message.trees_planted, "trees", "planted")); //e.g. 0 trees planted
+    var pages_text = document.createTextNode(pluralize(message.pages_left, "pages", "to next tree")); // e.g. 1 page to next tree
+    treesPlantedNum.appendChild(trees_num);
+    pagesLeftNum.appendChild(pages_num);
+    treesPlantedText.appendChild(trees_text);
+    pagesLeftText.appendChild(pages_text);
+    //@flfk appendChild takes up much less processing power apparently
 }
-
-
-// function hideIframe() {
-//     var iframe_elements = document.getElementsByClassName('iframe_element');
-//     for (i=0; i<iframe_elements.length; i++) {
-//         iframe_elements[i].classList.add('arbol_hide');
-//     }
-//     document.body.style.padding = '0';
-// }
-//
-// function showIframe() {
-//     var iframe_elements = document.getElementsByClassName('iframe_element');
-//     for (i=0; i<iframe_elements.length; i++) {
-//         iframe_elements[i].classList.remove('arbol_hide');
-//     }
-//     document.body.style.padding = height;
-// }
 
 
 // formats strings correctly according to plurality i.e. 0 trees, 1 tree, 2 trees
