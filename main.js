@@ -1,76 +1,91 @@
-//Resize document body to make room for bottom bar
+//Resize document body to make room for iframe
 var height = '110px';
-document.body.style.padding = '0px 0px '+height; //set margin height
+document.body.style.padding = '0px 0px '+height; //set padding height
 
-//Create and add container for bottom bar
-var iframe = document.createElement('iframe');
-iframe.src = 'https://flfk.github.io/';
-iframe.id = 'iframe';
-iframe.classList.add('iframe_element');
-iframe.style.height = height;
-document.documentElement.appendChild(iframe);﻿
+//initialize iframe
+var iframe_parent, iframe, kill, treesPlantedNum, treesPlantedText, pagesLeftNum, pagesLeftText;
+populateElements();
 
-//Add a close/snooze button
-var kill = document.createElement('img');
-kill.classList.add('kill');
-kill.classList.add('iframe_element');
-kill.src = chrome.extension.getURL('images/cross.png');
-document.documentElement.appendChild(kill);﻿
+
+//Send message to background.js on new page load
+chrome.runtime.sendMessage({message: "new page"}, function(response) {});
+
+//Listen for the response from background.js even if this isn't the active tab
+// Note: IF THERE ARE X TABS OPEN IT WILL RUN X TIMES ON EACH TAB
+chrome.runtime.onMessage.addListener(function(message_received, sender, sendResponse){
+    if (message_received.currently_snoozed) {
+        iframe_parent.classList.add('arbol_hide');
+    } else {
+        iframe_parent.classList.remove('arbol_hide');
+    }
+
+    displayStats(message_received);
+});
 
 //Click to kill functionality
 kill.addEventListener('click', () => {
-    var iframe_elements = document.getElementsByClassName('iframe_element');
-    for (i=0; i<iframe_elements.length; i++) {
-        iframe_elements[i].classList.add('hide');
-    }
-    document.body.style.padding = '0';
-
+    iframe_parent.classList.add('arbol_hide');
     //Send message to background.js for snooze start
     chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
 });
 
-//Add empty div to display Trees Planted Number
-var treesPlantedNum = document.createElement('div');
-treesPlantedNum.classList.add('arbol_test');
-treesPlantedNum.classList.add('iframe_element');
-treesPlantedNum.classList.add('treesPlantedNum');
-document.documentElement.appendChild(treesPlantedNum);
 
-//Add empty div to display Trees Planted Text
-var treesPlantedText = document.createElement('div');
-treesPlantedText.classList.add('arbol_test');
-treesPlantedText.classList.add('iframe_element');
-treesPlantedText.classList.add('treesPlantedText');
-document.documentElement.appendChild(treesPlantedText);
 
-//Add empty div to display Pages Left Number
-var pagesLeftNum = document.createElement('div');
-pagesLeftNum.classList.add('arbol_test');
-pagesLeftNum.classList.add('iframe_element');
-pagesLeftNum.classList.add('pagesLeftNum');
-document.documentElement.appendChild(pagesLeftNum);
 
-//Add empty div to display Trees Planted Text
-var pagesLeftText = document.createElement('div');
-pagesLeftText.classList.add('arbol_test');
-pagesLeftText.classList.add('iframe_element');
-pagesLeftText.classList.add('pagesLeftText');
-document.documentElement.appendChild(pagesLeftText);
 
-//Send message to background.js to count new page load
-chrome.runtime.sendMessage({message: "new page"}, function(response) {});
 
-//Listen for the updated tree stats from background.js even if this isn't the active tab
-chrome.runtime.onMessage.addListener(function(stats_received, sender, sendResponse){
+//================ FUNCTIONS ================//
 
-    treesPlantedNum.innerHTML = stats_received.trees_planted;
-    pagesLeftNum.innerHTML = stats_received.pages_left;
-    treesPlantedText.innerHTML = pluralize(stats_received.trees_planted, "trees", "planted");
-    pagesLeftText.innerHTML = pluralize(stats_received.pages_left, "pages", "to next tree");
+function populateElements() {
+    //Create and add container for bottom bar
+    iframe_parent = createElement('div', ['iframe_element']);
+    iframe_parent.id = 'iframe_parent';
+    document.documentElement.appendChild(iframe_parent);
 
-    // sendResponse({}); // no need to send response
+    iframe = createElement('iframe', ['iframe_element']);
+    iframe.src = 'https://flfk.github.io';
+    iframe.id = 'iframe';
+    iframe.style.height = height;
+    document.getElementById('iframe_parent').appendChild(iframe);﻿
 
-});
+    //Add a close/snooze button
+    kill = createElement('img', ['iframe_element', 'kill']);
+    kill.src = chrome.extension.getURL('images/cross.png');
+    document.getElementById('iframe_parent').appendChild(kill);﻿
+
+    //Add empty div to display Trees Planted Number
+    treesPlantedNum = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedNum']);
+    document.getElementById('iframe_parent').appendChild(treesPlantedNum);
+
+    //Add empty div to display Trees Planted Text
+    treesPlantedText = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedText']);
+    document.getElementById('iframe_parent').appendChild(treesPlantedText);
+
+    //Add empty div to display Pages Left Number
+    pagesLeftNum = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftNum']);
+    document.getElementById('iframe_parent').appendChild(pagesLeftNum);
+
+    //Add empty div to display Trees Planted Text
+    pagesLeftText = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftText']);
+    document.getElementById('iframe_parent').appendChild(pagesLeftText);
+}
+
+function createElement(tag, classes) {
+    var newElement = document.createElement(tag);
+    for (i=0; i<classes.length; i++) {
+        newElement.classList.add(classes[i]);
+    }
+    return newElement;
+}
+
+
+function displayStats(message) {
+    treesPlantedNum.innerHTML = message.trees_planted;
+    pagesLeftNum.innerHTML = message.pages_left;
+    treesPlantedText.innerHTML = pluralize(message.trees_planted, "trees", "planted");
+    pagesLeftText.innerHTML = pluralize(message.pages_left, "pages", "to next tree");
+}
+
 
 // formats strings correctly according to plurality i.e. 0 trees, 1 tree, 2 trees
 function pluralize (number, units, end) {
