@@ -67,7 +67,6 @@
             switch (alarm.name) {
                 case 'countdown':
                     var snooze_remaining = last_snoozed.getTime() + snooze_duration - Date.now();
-                    var text = new Date(alarm.scheduledTime);
                     chrome.browserAction.setBadgeText({text: formatTime(snooze_remaining)});
                     break;
 
