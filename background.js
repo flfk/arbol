@@ -1,8 +1,8 @@
 //Adapted from Page Counter extension by alberto.moratilla@gmail.com  January 2011 and revised on December 2014
 //http://about.me/alberto.moratilla
 
-        // config variables
-        var pages_per_tree = 100;
+        // config declarations
+        const PAGES_PER_TREE = 100;
         var snooze_minutes = 1;
 
         // script variables
@@ -10,7 +10,7 @@
         var pages_left;
         var last_snoozed;
         var currently_snoozed;
-        var snooze_duration = snooze_minutes*60*1000;
+        var snooze_duration = snooze_minutes * 60 * 1000;
 
 
         //Event when the extension is loaded: whether it is chrome who start or the user who enables the extension
@@ -82,28 +82,21 @@
 
 //================ FUNCTIONS ================//
 
-        // Display latest page count on the extension badge next to omnibar
-        function updateBadge() {
-            if (currently_snoozed) {
-
-            } else {
-                var texto = String(trees_planted);
-                if(trees_planted>1000)
-                {
-                    texto = String(Math.floor(trees_planted/1000) + "K")
-                }
-                chrome.browserAction.setBadgeText({text:texto});
-                chrome.browserAction.setBadgeBackgroundColor({color:[0,151,151,151]});
-            }
-        }
-
-
         //When extension ends, saves the counter and the time.
         function saveStatistics() {
+            // var saveObject = {
+            //     trees_planted: trees_planted,
+            //     pages_left: pages_left,
+            //     last_snoozed: last_snoozed.getTime(),
+            //     currently_snoozed: currently_snoozed
+            // }
+            // chrome.storage.sync.set(saveObject);
+
             localStorage.PC_trees_planted_save = JSON.stringify(trees_planted);
-            localStorage.PC_pages_left_save = JSON.stringify(pages_left);
+            localStorage.PC_pages_left_save  = JSON.stringify(pages_left);
             localStorage.PC_last_snoozed = JSON.stringify(last_snoozed.getTime());
             localStorage.PC_currently_snoozed = JSON.stringify(currently_snoozed);
+
             // localStorage.PC_first_initialized =  JSON.stringify( first_initialized.getTime() ) ;
             //
             // //Not sure if this block is necessary WIP
@@ -119,11 +112,33 @@
 
         //Load the number of pages visited from the last time
         function loadStatistics() {
+            // var loadKeys = [
+            //     'trees_planted',
+            //     'pages_left',
+            //     'last_snoozed',
+            //     'currently_snoozed'
+            // ]
+            // chrome.storage.sync.get(loadKeys, function(items) {
+            //     if (chrome.runtime.lastError) {
+            //         trees_planted = 0;
+            //         pages_left = PAGES_PER_TREE;
+            //         last_snoozed = new Date(0);
+            //         currently_snoozed = false;
+            //     } else {
+            //         trees_planted = items['trees_planted'];
+            //         pages_left = items['pages_left'];
+            //         last_snoozed = items['last_snoozed'];
+            //         currently_snoozed = items["currently_snoozed"];
+            //     }
+            // });
+
+
+
 
             if (!localStorage.PC_trees_planted_save)   //If no data found
             {
                 trees_planted = 0;
-                pages_left = pages_per_tree;
+                pages_left = PAGES_PER_TREE;
                 last_snoozed = new Date(0);
                 currently_snoozed = false;
                 // first_initialized = new Date();
@@ -141,19 +156,36 @@
         }
 
 
+
         //increases the counter and calls badge's refresh function
         function decrement_pages_left() {
             if (pages_left == 1) {
               trees_planted++;
-              pages_left = pages_per_tree;
+              pages_left = PAGES_PER_TREE;
             } else {
               pages_left--;
             }
 
-            updateBadge();
             saveStatistics();
+            updateBadge();
         }
 
+
+
+        // Display latest page count on the extension badge next to omnibar
+        function updateBadge() {
+            if (currently_snoozed) {
+
+            } else {
+                var texto = String(trees_planted);
+                if(trees_planted>1000)
+                {
+                    texto = String(Math.floor(trees_planted/1000) + "K")
+                }
+                chrome.browserAction.setBadgeText({text:texto});
+                chrome.browserAction.setBadgeBackgroundColor({color:[0,151,151,151]});
+            }
+        }
 
 
         function setSnooze() {
