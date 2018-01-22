@@ -1,5 +1,5 @@
 //Resize document body to make room for iframe
-var height = '110px';
+var height = '80px';
 document.body.style.padding = '0px 0px '+height; //set padding height
 
 //initialize iframe
@@ -53,6 +53,11 @@ function populateElements() {
     kill.src = chrome.extension.getURL('images/cross.png');
     document.getElementById('iframe_parent').appendChild(kill);﻿
 
+    //Add icon for Trees Planted
+    treesPlantedIcon = createElement('img',['iframe_element', 'treesPlantedIcon']);
+    treesPlantedIcon.src = chrome.extension.getURL('images/TreesPlantedIcon.png');
+    document.getElementById('iframe_parent').appendChild(treesPlantedIcon);
+
     //Add empty div to display Trees Planted Number
     treesPlantedNum = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedNum']);
     document.getElementById('iframe_parent').appendChild(treesPlantedNum);
@@ -60,6 +65,11 @@ function populateElements() {
     //Add empty div to display Trees Planted Text
     treesPlantedText = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedText']);
     document.getElementById('iframe_parent').appendChild(treesPlantedText);
+
+    //Add icon for Pages Left
+    pagesLeftIcon = createElement('img',['iframe_element', 'pagesLeftIcon']);
+    pagesLeftIcon.src = chrome.extension.getURL('images/ProgressIcon1.png');
+    document.getElementById('iframe_parent').appendChild(pagesLeftIcon);
 
     //Add empty div to display Pages Left Number
     pagesLeftNum = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftNum']);
@@ -82,10 +92,9 @@ function createElement(tag, classes) {
 function displayStats(message) {
     treesPlantedNum.innerHTML = message.trees_planted;
     pagesLeftNum.innerHTML = message.pages_left;
-    treesPlantedText.innerHTML = pluralize(message.trees_planted, "trees", "planted");
-    pagesLeftText.innerHTML = pluralize(message.pages_left, "pages", "to next tree");
+    treesPlantedText.innerHTML = pluralize(message.trees_planted, "", "planted");
+    pagesLeftText.innerHTML = pluralize(message.pages_left, "pages", "to go");
 }
-
 
 // formats strings correctly according to plurality i.e. 0 trees, 1 tree, 2 trees
 function pluralize (number, units, end) {
