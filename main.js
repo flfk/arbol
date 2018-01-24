@@ -29,11 +29,6 @@ kill.addEventListener('click', () => {
     chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
 });
 
-
-
-
-
-
 //================ FUNCTIONS ================//
 
 function populateElements() {
@@ -68,7 +63,7 @@ function populateElements() {
 
     //Add icon for Pages Left
     pagesLeftIcon = createElement('img',['iframe_element', 'pagesLeftIcon']);
-    pagesLeftIcon.src = chrome.extension.getURL('images/ProgressIcon1.png');
+    // pagesLeftIcon.src = chrome.extension.getURL('images/Animation1.png');
     document.getElementById('iframe_parent').appendChild(pagesLeftIcon);
 
     //Add empty div to display Pages Left Number
@@ -88,12 +83,12 @@ function createElement(tag, classes) {
     return newElement;
 }
 
-
 function displayStats(message) {
     treesPlantedNum.innerHTML = message.trees_planted;
     pagesLeftNum.innerHTML = message.pages_left;
     treesPlantedText.innerHTML = pluralize(message.trees_planted, "", "planted");
     pagesLeftText.innerHTML = pluralize(message.pages_left, "pages", "to go");
+    pagesLeftIcon.src = selectPagesLeftIcon(message.pages_left)
 }
 
 // formats strings correctly according to plurality i.e. 0 trees, 1 tree, 2 trees
@@ -102,4 +97,44 @@ function pluralize (number, units, end) {
         units = units.slice(0, -1); // slice off the s at the end of the word
     }
     return units+" "+end;
+}
+
+function selectPagesLeftIcon (pagesLeftNum) {
+  var progressImgURL = pagesLeftIcon.src;
+  if (pagesLeftNum > 93){
+    progressImgURL = chrome.extension.getURL('images/Animation1.png');
+  } else if (pagesLeftNum > 87){
+    progressImgURL = chrome.extension.getURL('images/Animation2.png');
+  } else if (pagesLeftNum > 81){
+    progressImgURL = chrome.extension.getURL('images/Animation3.png');
+  } else if (pagesLeftNum > 75){
+    progressImgURL = chrome.extension.getURL('images/Animation4.png');
+  } else if (pagesLeftNum > 68){
+    progressImgURL = chrome.extension.getURL('images/Animation5.png');
+  } else if (pagesLeftNum > 62){
+    progressImgURL = chrome.extension.getURL('images/Animation6.png');
+  } else if (pagesLeftNum > 56){
+    progressImgURL = chrome.extension.getURL('images/Animation7.png');
+  } else if (pagesLeftNum > 50){
+    progressImgURL = chrome.extension.getURL('images/Animation8.png');
+  } else if (pagesLeftNum > 44){
+    progressImgURL = chrome.extension.getURL('images/Animation9.png');
+  } else if (pagesLeftNum > 37){
+    progressImgURL = chrome.extension.getURL('images/Animation10.png');
+  } else if (pagesLeftNum > 31){
+    progressImgURL = chrome.extension.getURL('images/Animation11.png');
+  } else if (pagesLeftNum > 25){
+    progressImgURL = chrome.extension.getURL('images/Animation12.png');
+  } else if (pagesLeftNum > 19){
+    progressImgURL = chrome.extension.getURL('images/Animation13.png');
+  } else if (pagesLeftNum > 13){
+    progressImgURL = chrome.extension.getURL('images/Animation14.png');
+  } else if (pagesLeftNum > 7){
+    progressImgURL = chrome.extension.getURL('images/Animation15.png');
+  } else if (pagesLeftNum > 1){
+    progressImgURL = chrome.extension.getURL('images/Animation16.png');
+  } else {
+    progressImgURL = chrome.extension.getURL('images/Animation17.png');
+  }
+  return progressImgURL;
 }
