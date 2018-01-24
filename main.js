@@ -1,6 +1,8 @@
 //Resize document body to make room for iframe
-var height = '110px';
-document.body.style.padding = '0px 0px '+height; //set padding height
+const HEIGHT = '110px';
+document.body.style.padding = '0px 0px '+HEIGHT; //set padding height
+// const frameURL = 'https://flfk.github.io';
+const frameURL = 'https://mikey-yang.github.io';
 
 //initialize iframe
 var iframe_parent, iframe, kill, treesPlantedNum, treesPlantedText, pagesLeftNum, pagesLeftText;
@@ -43,9 +45,9 @@ function populateElements() {
     document.documentElement.appendChild(iframe_parent);
 
     iframe = createElement('iframe', ['iframe_element']);
-    iframe.src = 'https://flfk.github.io';
+    iframe.src = frameURL;
     iframe.id = 'iframe';
-    iframe.style.height = height;
+    iframe.style.height = HEIGHT;
     document.getElementById('iframe_parent').appendChild(iframe);﻿
 
     //Add a close/snooze button
