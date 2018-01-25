@@ -2,13 +2,20 @@
 	"manifest_version": 2,
 
 	"name": "Project Arbol",
-	"description": "Lets you plant trees by allowing ads in your browser",
+	"description": "Plant trees by surfing the web",
 	"version": "1.0",
 
 	"browser_action": {
-    "default_icon": "images/Tree-icon.png",
+    "default_icon": "images/icon_21px.png",
     "default_popup": "popup.html"
   },
+
+	"icons": {
+      "128": "images/icon_128px.png",
+      "16": "images/icon_16px.png",
+      "32": "images/icon_32px.png",
+      "48": "images/icon_48px.png"
+   },
 
   "permissions": [
 		"tabs",
