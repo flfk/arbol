@@ -1,8 +1,8 @@
 //Resize document body to make room for iframe
 const HEIGHT = '80px';
 document.body.style.padding = '0px 0px '+HEIGHT; //set padding height
-// const frameURL = 'https://flfk.github.io';
-const frameURL = 'https://mikey-yang.github.io';
+const frameURL = 'https://flfk.github.io';
+// const frameURL = 'https://mikey-yang.github.io';
 
 //initialize iframe
 var iframe_parent, iframe, kill, treesPlantedNum, treesPlantedText, pagesLeftNum, pagesLeftText;
@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(function(message_received, sender, sendResp
         iframe_parent.classList.remove('arbol_hide');
     }
 
-    displayStats(message_received);
+    // displayStats(message_received); // TODO: delete
 });
 
 //Click to kill functionality
@@ -50,31 +50,32 @@ function populateElements() {
     kill.src = chrome.extension.getURL('images/cross.png');
     document.getElementById('iframe_parent').appendChild(kill);﻿
 
-    //Add icon for Trees Planted
-    treesPlantedIcon = createElement('img',['iframe_element', 'treesPlantedIcon']);
-    treesPlantedIcon.src = chrome.extension.getURL('images/TreesPlantedIcon.png');
-    document.getElementById('iframe_parent').appendChild(treesPlantedIcon);
-
-    //Add empty div to display Trees Planted Number
-    treesPlantedNum = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedNum']);
-    document.getElementById('iframe_parent').appendChild(treesPlantedNum);
-
-    //Add empty div to display Trees Planted Text
-    treesPlantedText = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedText']);
-    document.getElementById('iframe_parent').appendChild(treesPlantedText);
-
-    //Add icon for Pages Left
-    pagesLeftIcon = createElement('img',['iframe_element', 'pagesLeftIcon']);
-    // pagesLeftIcon.src = chrome.extension.getURL('images/Animation1.png');
-    document.getElementById('iframe_parent').appendChild(pagesLeftIcon);
-
-    //Add empty div to display Pages Left Number
-    pagesLeftNum = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftNum']);
-    document.getElementById('iframe_parent').appendChild(pagesLeftNum);
-
-    //Add empty div to display Trees Planted Text
-    pagesLeftText = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftText']);
-    document.getElementById('iframe_parent').appendChild(pagesLeftText);
+    // TODO: delete
+    // // //Add icon for Trees Planted
+    // treesPlantedIcon = createElement('img',['iframe_element', 'treesPlantedIcon']);
+    // treesPlantedIcon.src = chrome.extension.getURL('images/TreesPlantedIcon.png');
+    // document.getElementById('iframe_parent').appendChild(treesPlantedIcon);
+    //
+    // //Add empty div to display Trees Planted Number
+    // treesPlantedNum = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedNum']);
+    // document.getElementById('iframe_parent').appendChild(treesPlantedNum);
+    //
+    // //Add empty div to display Trees Planted Text
+    // treesPlantedText = createElement('div', ['iframe_element', 'arbol_test', 'treesPlantedText']);
+    // document.getElementById('iframe_parent').appendChild(treesPlantedText);
+    //
+    // //Add icon for Pages Left
+    // pagesLeftIcon = createElement('img',['iframe_element', 'pagesLeftIcon']);
+    // // pagesLeftIcon.src = chrome.extension.getURL('images/Animation1.png');
+    // document.getElementById('iframe_parent').appendChild(pagesLeftIcon);
+    //
+    // //Add empty div to display Pages Left Number
+    // pagesLeftNum = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftNum']);
+    // document.getElementById('iframe_parent').appendChild(pagesLeftNum);
+    //
+    // //Add empty div to display Trees Planted Text
+    // pagesLeftText = createElement('div', ['iframe_element', 'arbol_test', 'pagesLeftText']);
+    // document.getElementById('iframe_parent').appendChild(pagesLeftText);
 }
 
 function createElement(tag, classes) {
@@ -84,7 +85,7 @@ function createElement(tag, classes) {
     }
     return newElement;
 }
-
+ // TODO: delete displayStats(), pluralize() and selectPagesLeftIcon()
 function displayStats(message) {
     treesPlantedNum.innerHTML = message.trees_planted;
     pagesLeftNum.innerHTML = message.pages_left;
