@@ -1,4 +1,3 @@
-//Resize document body to make room for iframe
 const HEIGHT = 80;
 const viewport_height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 const resized_height = viewport_height - HEIGHT;
@@ -74,7 +73,7 @@ function resizeHeight(input_height, output_height) {
 
 
 /**
- * Handles the logic when user wants to snooze
+ * Handles the logic if status is snoozed or when user wants to snooze
  */
 function snoozeLogic() {
   $(iframe_parent).hide();
@@ -86,7 +85,7 @@ function snoozeLogic() {
 
 
 /**
- * Handles the logic when snooze is finished
+ * Handles the logic if status is unsnoozed or when snooze is finished
  */
 function wakeLogic() {
   $(iframe_parent).show();
