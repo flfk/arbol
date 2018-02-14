@@ -4,70 +4,57 @@ const viewport_height = Math.max(document.documentElement.clientHeight, window.i
 const resized_height = viewport_height - HEIGHT;
 const frameURL = 'https://flfk.github.io';
 
-//initialize iframe
+// Initialize iframe
 var iframe_parent, iframe, kill;
 populateElements();
 
-//Send message to background.js on new page load
+// Send message to background.js on new page load
 chrome.runtime.sendMessage({message: "new page"}, function(response) {});
 
-// Correctly resize elements that are exactly viewport height
-// Note: DOMContentLoaded event fires too early for pages such as Facebook messenger
-window.addEventListener('load', function() {
-  document.documentElement.style.padding = '0px 0px '+HEIGHT+'px'; //set padding height
-  // Downsize full height elements to allow room for the iframe
-  resizeHeight(viewport_height, resized_height);
-});
-
-//Listen for the response from background.js even if this isn't the active tab
+// Listen for the response from background.js even if this isn't the active tab
 // Note: IF THERE ARE X TABS OPEN IT WILL RUN X TIMES ON EACH TAB
 chrome.runtime.onMessage.addListener(function(message_received, sender, sendResponse){
     if (message_received.currently_snoozed) {
-        iframe_parent.classList.add('arbol_hide');
-        document.documentElement.style.padding = 0;
-        resizeHeight(resized_height, viewport_height);
+        snoozeLogic();
     } else {
-        iframe_parent.classList.remove('arbol_hide');
-        document.documentElement.style.padding = '0px 0px '+HEIGHT+'px'; //set padding height
-        resizeHeight(viewport_height, resized_height);
+        wakeLogic();
     }
+    // TODO: refactor background.js to inform Firebase of snoozes
 });
 
-//Click to kill functionality
+// Snooze button handler
 kill.addEventListener('click', () => {
-    iframe_parent.classList.add('arbol_hide');
-    document.documentElement.style.padding = 0;
+    snoozeLogic();
     //Send message to background.js for snooze start
     chrome.runtime.sendMessage({message: "snooze"}, function(response) {});
 });
 
 //================ FUNCTIONS ================//
 
+/**
+ * Creates the DOM elements for the iframe, inserts classes and attributes,
+ * then appends / inserts into the DOM
+ */
 function populateElements() {
-    //Create and add container for bottom bar
-    iframe_parent = createElement('div', ['iframe_element']);
-    iframe_parent.id = 'iframe_parent';
-    document.documentElement.appendChild(iframe_parent);
+    iframe_parent = document.createElement('div');
+    $(iframe_parent)
+      .addClass('iframe_parent')
+      .appendTo('html');
 
-    iframe = createElement('iframe', ['iframe_element']);
-    iframe.src = frameURL;
-    iframe.id = 'iframe';
-    iframe.style.height = HEIGHT+'px';
-    document.getElementById('iframe_parent').appendChild(iframe);﻿
+    iframe = document.createElement('iframe');
+    $(iframe)
+      .attr('src', frameURL)
+      .addClass('iframe')
+      .css('height', HEIGHT+'px')
+      .appendTo(iframe_parent);
 
-    //Add a close/snooze button
-    kill = createElement('img', ['iframe_element', 'kill']);
-    kill.src = chrome.extension.getURL('images/cross.png');
-    document.getElementById('iframe_parent').appendChild(kill);﻿
+    kill = document.createElement('img');
+    $(kill)
+      .attr('src', chrome.extension.getURL('images/cross.png'))
+      .addClass('kill')
+      .appendTo(iframe_parent);
 }
 
-function createElement(tag, classes) {
-    var newElement = document.createElement(tag);
-    for (i=0; i<classes.length; i++) {
-        newElement.classList.add(classes[i]);
-    }
-    return newElement;
-}
 
 /**
  * Resizes all elements in the DOM with a specific height to another specific
@@ -83,4 +70,37 @@ function resizeHeight(input_height, output_height) {
     'min-height': 0,
     'height': output_height+'px'
   });
+}
+
+
+/**
+ * Handles the logic when user wants to snooze
+ */
+function snoozeLogic() {
+  $(iframe_parent).hide();
+  $('body').css('padding', '0');
+
+  // Resize any downsized elements to full viewport
+  resizeHeight(resized_height, viewport_height);
+}
+
+
+/**
+ * Handles the logic when snooze is finished
+ */
+function wakeLogic() {
+  $(iframe_parent).show();
+  $('body').css('padding', '0px 0px '+HEIGHT+'px');
+
+  // Downsize full height elements to allow room for the iframe
+  // Wait for window load so that resizing won't be overridden by other scripts
+  if (document.readyState  == 'complete') {
+    resizeHeight(viewport_height, resized_height);
+  } else {
+    // Note: DOMContentLoaded event fires before scripts, so too early for
+    // some single page applications like Facebook messenger
+    window.addEventListener('load', function() {
+      resizeHeight(viewport_height, resized_height);
+    });
+  }
 }
