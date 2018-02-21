@@ -122,6 +122,6 @@ function wakeLogic() {
   if (document.readyState  !== 'complete') {
     window.addEventListener('load', function() {
       resizeHeight(viewport_height, resized_height);
-    }
+    });
   }
 }
