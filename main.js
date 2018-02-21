@@ -116,14 +116,12 @@ function wakeLogic() {
   $('body').css('padding', '0px 0px '+HEIGHT+'px');
 
   // Downsize full height elements to allow room for the iframe
-  // Wait for window load so that resizing won't be overridden by other scripts
-  if (document.readyState  == 'complete') {
-    resizeHeight(viewport_height, resized_height);
-  } else {
-    // Note: DOMContentLoaded event fires before scripts, so too early for
-    // some single page applications like Facebook messenger
+  resizeHeight(viewport_height, resized_height);
+
+  // Try again after window load in case resizing is overridden by other scripts
+  if (document.readyState  !== 'complete') {
     window.addEventListener('load', function() {
       resizeHeight(viewport_height, resized_height);
-    });
+    }
   }
 }
