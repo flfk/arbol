@@ -52,8 +52,32 @@ function populateElements() {
       .attr('src', chrome.extension.getURL('images/cross.png'))
       .addClass('kill')
       .appendTo(iframe_parent);
+
+    // Load images
+    banner1 = document.createElement('img');
+    $(banner1)
+      // .attr('src',chrome.extension.getURL('images/banner1.gif'))
+      .attr('src', chrome.extension.getURL(getRndBannerURL()))
+      .addClass('banner1')
+      .appendTo(iframe_parent)
+
+    banner2 = document.createElement('img');
+    $(banner2)
+      // .attr('src',chrome.extension.getURL('images/banner1.gif'))
+      .attr('src', chrome.extension.getURL(getRndBannerURL()))
+      .addClass('banner2')
+      .appendTo(iframe_parent)
 }
 
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function getRndBannerURL(bannerID) {
+  const randomNumber = getRndInteger(1,25)
+  const bannerURL = 'images/banner' + String(randomNumber) + '.gif'
+  return bannerURL
+}
 
 /**
  * Resizes all elements in the DOM with a specific height to another specific

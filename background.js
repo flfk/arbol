@@ -3,7 +3,7 @@
 
         // config declarations
         const PAGES_PER_TREE = 100;
-        var snooze_minutes = 15;
+        var snooze_minutes = 60;
 
         // script variables
         var trees_planted;
